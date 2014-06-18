@@ -65,8 +65,15 @@ def hack(s, e): # Mind you the actual function is called at the bottom.
 		url += '&verification=y1Gd71'
 
 		# Open the Webpage
-		response = urllib2.urlopen(url)
-		htmlsrc = response.read()
+		try:
+			response = urllib2.urlopen(url, timeout=10)
+			htmlsrc = response.read()
+		except (Exception) as e:
+			print(e.args)
+			print('We have an problem on the webpage')
+			print('Current Form number is: ' + str(x))
+			x += 1
+			continue
 
 		# Search for our name in the source
 		if(re.search(args[0] + ' ' + args[1],htmlsrc) is None):
@@ -75,13 +82,17 @@ def hack(s, e): # Mind you the actual function is called at the bottom.
 			continue
 			
 		else:
-			f = open("admitcard.htm","w+")
-			print 'WE HAVE A WINNER:'+str(x)
-			f.write(htmlsrc)
-			f.close()
-			sys.exit(0)		
+			try:
+				with open("admitcard.htm","w+") as f:
+					print 'WE HAVE A WINNER:'+str(x)
+					f.write(htmlsrc)
+					f.close()
+			except (IOError) as e:
+				print('Problem writing the file')
+				print('Form number is: ' + str(x))
+				return
 
-			x += 1
+		sys.exit(0)
 
 if isNotValid(sys.argv) is False:	
 	first_name = sys.argv[1].upper()
@@ -95,16 +106,8 @@ else:
 	sys.exit(1)
 
 # Main Block
-try:
-	print('Please enter the range you want to operate on: ')
-	start = raw_input()
-	end = raw_input()
-	hack(start, end)
-	# This is where you start the hack by calling the function.
-except (Exception) as e:
-	print(e.args)
-	print('We have an issue... trying again...')
-	time.sleep(30)
-	hack(x,end)
-	# It should be fairly obvious that x will be incremented in the function
-	# And therefore in case of an Error, it continues from the last value
+print('Please enter the range you want to operate on: ')
+start = raw_input()
+end = raw_input()
+hack(start, end)
+# This is where you start the hack by calling the function.
