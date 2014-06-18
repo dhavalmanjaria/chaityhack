@@ -101,7 +101,9 @@ try:
 	end = raw_input()
 	hack(start, end)
 	# This is where you start the hack by calling the function.
-except IOError:
+except (Exception) as e:
+	print(e.args)
+	print('We have an issue... trying again...')
 	time.sleep(30)
 	hack(x,end)
 	# It should be fairly obvious that x will be incremented in the function
