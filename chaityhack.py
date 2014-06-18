@@ -71,14 +71,6 @@ def hack(start, end): # Mind you the actual function is called at the bottom.
 		# Search for our name in the source
 		if(re.search(args[0] + ' ' + args[1],htmlsrc) is None):
 			print str(x)+' not found. Still searching.'
-			
-#			try:
-#				_f = open("ch_logfile.txt","w")
-#				_f.write(str(x)+'not found. Still Searching...')
-#				_f.close()
-#			except IOError:
-#				continue
-			
 			x += 1
 			continue
 			
