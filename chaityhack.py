@@ -56,7 +56,7 @@ def hack(s, e): # Mind you the actual function is called at the bottom.
 
 		# Open the Webpage
 		try:
-			response = urllib2.urlopen(url, timeout=1)
+			response = urllib2.urlopen(url, timeout=10)
 			htmlsrc = response.read()
 		except (Exception) as e:
 			print(e.args)
