@@ -35,24 +35,14 @@ def isNotValid(argv):
 
 	return fail_flag
 	
-		
-if isNotValid(sys.argv) is False:	
-	first_name = sys.argv[1].upper()
-	last_name = sys.argv[2].upper()
-	day = sys.argv[3]
-	month = sys.argv[4]
-	year = sys.argv[5]
-	args = (first_name, last_name, day, month, year)
-
-else:
-	sys.exit(1)
-	
 
 x = 0 # This defines X as a globally accessible variable. See bottom.
 def hack(s, e): # Mind you the actual function is called at the bottom.
 	global x
 	x = int(start)
 	i_end = int(end)
+	tryCount = 0 # This is a counter that counts how many times we've tried one number
+	maxRetries = 4
 	while x < i_end:
 		# 
 		# Get the url we need
@@ -66,12 +56,24 @@ def hack(s, e): # Mind you the actual function is called at the bottom.
 
 		# Open the Webpage
 		try:
-			response = urllib2.urlopen(url, timeout=10)
+			response = urllib2.urlopen(url, timeout=1)
 			htmlsrc = response.read()
 		except (Exception) as e:
 			print(e.args)
-			print('We have an problem on the webpage')
-			print('Current Form number is: ' + str(x))
+			print('We have an problem on a webpage. Trying again...')
+			time.sleep(3)
+			if maxRetries > tryCount:
+				tryCount += 1
+				continue
+			else: # Try count is beyond max
+				try:
+					with open("failed_numbers.txt","a") as f:
+						f.write(str(x) + '\n')
+				except (IOError) as e:
+					print("Error writing failed_numbers.txt")
+					print(e.args)
+					tryCount = 0
+
 			x += 1
 			continue
 
@@ -94,6 +96,8 @@ def hack(s, e): # Mind you the actual function is called at the bottom.
 
 		sys.exit(0)
 
+
+### MAIN BLOCK
 if isNotValid(sys.argv) is False:	
 	first_name = sys.argv[1].upper()
 	last_name = sys.argv[2].upper()
@@ -105,7 +109,7 @@ if isNotValid(sys.argv) is False:
 else:
 	sys.exit(1)
 
-# Main Block
+
 print('Please enter the range you want to operate on: ')
 start = raw_input()
 end = raw_input()
